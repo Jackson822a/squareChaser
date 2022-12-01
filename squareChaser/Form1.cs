@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace squareChaser
 {
@@ -23,7 +24,7 @@ namespace squareChaser
         int player1Score = 0;
         int player2Score = 0;
 
-        int playerSpeed = 6;
+     
         int player1Speed = 6;
         int player2Speed = 6;
         int ballXSpeed = -6;
@@ -59,41 +60,41 @@ namespace squareChaser
             //move player 1
             if (wDown == true && player1.Y > 0)
             {
-                player1.Y -= playerSpeed;
+                player1.Y -= player1Speed;
             }
 
             if (sDown == true && player1.Y < this.Height - player1.Height)
             {
-                player1.Y += playerSpeed;
+                player1.Y += player1Speed;
             }
             if (aLeft == true && player1.X > 0)
             {
-                player1.X -= playerSpeed;
+                player1.X -= player1Speed;
             }
             if (dRight == true && player1.X < 435)
             {
-                player1.X += playerSpeed;
+                player1.X += player1Speed;
             }
         
 
             //move player 2 
             if (upArrowDown == true && player2.Y > 0)
             {
-                player2.Y -= playerSpeed;
+                player2.Y -= player2Speed;
             }
 
             if (downArrowDown == true && player2.Y < this.Height - player2.Height)
             {
-                player2.Y += playerSpeed;
+                player2.Y += player2Speed;
             }
 
             if (leftArrowDown == true && player2.X >70)
             {
-                player2.X -= playerSpeed;
+                player2.X -= player2Speed;
             }
             if (rightArrowDown == true && player2.X <500)
             {
-                player2.X += playerSpeed;
+                player2.X += player2Speed;
             }
 
 
@@ -116,23 +117,34 @@ namespace squareChaser
             if(player1Score == 10)
             {
                 winLabel.Text = "Player 1 Wins!";
+                player1Speed = 0;
+                player2Speed = 0;
+                Refresh();
+                Thread.Sleep(2000);
+                Application.Exit();
             }
             if (player2Score == 10)
             {
                 winLabel.Text = "Player 2 Wins!";
+                player1Speed = 0;
+                player2Speed = 0;
+                Refresh();
+                Thread.Sleep(2000);
+                Application.Exit();
+              
             }
             //PlayerIntersectonWithBoost
             if (player1.IntersectsWith(boost))
             {
-                point.X = random.Next(80, 420);
-                point.Y = random.Next(20, 400);
+                boost.X = random.Next(80, 420);
+                boost.Y = random.Next(20, 400);
                 player1Speed++;
             }
             if (player2.IntersectsWith(boost))
             {
-                point.X = random.Next(80, 420);
-                point.Y = random.Next(20, 400);
-                
+                boost.X = random.Next(80, 420);
+                boost.Y = random.Next(20, 400);
+                player2Speed++;
             }
 
             Refresh();
@@ -152,20 +164,20 @@ namespace squareChaser
 
                 if (aLeft == true && player1.X > 70)
                 {
-                    player1.X -= playerSpeed;
+                    player1.X -= player1Speed;
                 }
                 if (dRight == true && player1.X < 435)
                 {
-                    player1.X += playerSpeed;
+                    player1.X += player1Speed;
                 }
 
                 if (leftArrowDown == true && player2.X > 70)
                 {
-                    player2.X -= playerSpeed;
+                    player2.X -= player2Speed;
                 }
                 if (rightArrowDown == true && player2.X < 435)
                 {
-                    player2.X += playerSpeed;
+                    player2.X += player2Speed;
                 }
             }
               
