@@ -32,6 +32,7 @@
             this.p1Score = new System.Windows.Forms.Label();
             this.p2Score = new System.Windows.Forms.Label();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.winLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // p1Score
@@ -63,12 +64,24 @@
             this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
+            // winLabel
+            // 
+            this.winLabel.BackColor = System.Drawing.Color.Transparent;
+            this.winLabel.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.winLabel.ForeColor = System.Drawing.Color.White;
+            this.winLabel.Location = new System.Drawing.Point(263, 117);
+            this.winLabel.Name = "winLabel";
+            this.winLabel.Size = new System.Drawing.Size(156, 62);
+            this.winLabel.TabIndex = 2;
+            this.winLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(700, 550);
+            this.Controls.Add(this.winLabel);
             this.Controls.Add(this.p2Score);
             this.Controls.Add(this.p1Score);
             this.DoubleBuffered = true;
@@ -88,6 +101,7 @@
         private System.Windows.Forms.Label p1Score;
         private System.Windows.Forms.Label p2Score;
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label winLabel;
     }
 }
 
