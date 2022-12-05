@@ -75,8 +75,7 @@ namespace squareChaser
             {
                 player1.X += player1Speed;
             }
-        
-
+           
             //move player 2 
             if (upArrowDown == true && player2.Y > 0)
             {
