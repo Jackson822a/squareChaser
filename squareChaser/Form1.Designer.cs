@@ -33,6 +33,8 @@
             this.p2Score = new System.Windows.Forms.Label();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
             this.winLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.subtitleLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // p1Score
@@ -75,12 +77,38 @@
             this.winLabel.TabIndex = 2;
             this.winLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // titleLabel
+            // 
+            this.titleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.titleLabel.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.ForeColor = System.Drawing.Color.White;
+            this.titleLabel.Location = new System.Drawing.Point(213, 138);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(255, 41);
+            this.titleLabel.TabIndex = 3;
+            this.titleLabel.Text = "Square Chaser";
+            this.titleLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // subtitleLabel
+            // 
+            this.subtitleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.subtitleLabel.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.subtitleLabel.ForeColor = System.Drawing.Color.White;
+            this.subtitleLabel.Location = new System.Drawing.Point(225, 219);
+            this.subtitleLabel.Name = "subtitleLabel";
+            this.subtitleLabel.Size = new System.Drawing.Size(229, 56);
+            this.subtitleLabel.TabIndex = 4;
+            this.subtitleLabel.Text = "Press space to start or Esc to exit";
+            this.subtitleLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(700, 550);
+            this.Controls.Add(this.subtitleLabel);
+            this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.winLabel);
             this.Controls.Add(this.p2Score);
             this.Controls.Add(this.p1Score);
@@ -102,6 +130,8 @@
         private System.Windows.Forms.Label p2Score;
         private System.Windows.Forms.Timer gameTimer;
         private System.Windows.Forms.Label winLabel;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Label subtitleLabel;
     }
 }
 

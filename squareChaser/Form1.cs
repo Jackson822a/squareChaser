@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace squareChaser
 {
@@ -19,7 +20,13 @@ namespace squareChaser
         Rectangle boost = new Rectangle(250, 220, 10, 10);
         Rectangle border = new Rectangle(60, 0, 10, 500);
         Rectangle border2 = new Rectangle(455, 0, 10, 500);
-     
+
+        List<Rectangle> balls = new List<Rectangle>();
+
+        List<Rectangle> balls2 = new List<Rectangle>();
+        int ballSize = 10;
+
+        int ballSpeed = 8;
 
         int player1Score = 0;
         int player2Score = 0;
@@ -29,6 +36,8 @@ namespace squareChaser
         int player2Speed = 6;
         int ballXSpeed = -6;
         int ballYSpeed = 6;
+
+        string gameState = "waiting";
 
         bool wDown = false;
         bool sDown = false;
@@ -46,12 +55,16 @@ namespace squareChaser
         SolidBrush yellowBrush = new SolidBrush(Color.Yellow);  
 
 
-        Random random = new Random(); 
+        Random random = new Random();
+        int randValue = 0;
+        Random random2 = new Random();
+        int randValue2 = 0;
+
 
         public Form1()
         {
             InitializeComponent();
-            gameTimer.Enabled = true;
+           
             this.Focus();
         }
 
@@ -113,23 +126,23 @@ namespace squareChaser
                 p2Score.Text = $"{player2Score}";
             }
             //Win
-            if(player1Score == 10)
+            if(player1Score == 5)
             {
+                gameState = "over";
                 winLabel.Text = "Player 1 Wins!";
                 player1Speed = 0;
                 player2Speed = 0;
                 Refresh();
-                Thread.Sleep(2000);
-                Application.Exit();
+           
             }
-            if (player2Score == 10)
+            if (player2Score == 5)
             {
+                gameState = "over";
                 winLabel.Text = "Player 2 Wins!";
                 player1Speed = 0;
                 player2Speed = 0;
                 Refresh();
-                Thread.Sleep(2000);
-                Application.Exit();
+               
               
             }
             //PlayerIntersectonWithBoost
@@ -145,45 +158,135 @@ namespace squareChaser
                 boost.Y = random.Next(20, 400);
                 player2Speed++;
             }
+            // move balls 2
+            for (int i = 0; i < balls2.Count(); i++)
+            {
+                //find the new postion of y based on speed 
+                int x = balls2[i].X + ballSpeed;
+
+                //replace the rectangle in the list with updated one using new y 
+                balls2[i] = new Rectangle(balls2[i].Y, x, ballSize, ballSize);
+            }
+            //check to see if a new ball should be created 
+            randValue2 = random2.Next(0, 101);
+
+            if (randValue2 < 5) //
+            {
+                int y = random2.Next(10, this.Width - ballSize * 2);
+                balls2.Add(new Rectangle(y, 10, ballSize, ballSize));
+            }
+            
+            for (int i = 0; i < balls2.Count(); i++)
+            {
+                if (player1.IntersectsWith(balls2[i]))
+                {
+                    player1.X = 0; player1.Y = 170;
+
+                    balls2.RemoveAt(i);
+                }
+            }
+                for (int i = 0; i < balls2.Count(); i++)
+                {
+                    if (player2.IntersectsWith(balls2[i]))
+                    {
+                        player2.X = 500; player1.Y = 170;
+
+                        balls2.RemoveAt(i);
+                    }
+
+                }
+            for (int i = 0; i < balls.Count(); i++)
+            {
+                //find the new postion of y based on speed 
+                int y = balls[i].Y + ballSpeed;
+
+                //replace the rectangle in the list with updated one using new y 
+                balls[i] = new Rectangle(balls[i].X, y, ballSize, ballSize);
+            }
+            //check to see if a new ball should be created 
+            randValue = random.Next(0, 101);
+
+            if (randValue < 5) //
+            {
+                int x = random.Next(10, this.Width - ballSize * 2);
+                balls.Add(new Rectangle(x, 10, ballSize, ballSize));
+            }
+
+            for (int i = 0; i < balls.Count(); i++)
+            {
+                if (player1.IntersectsWith(balls[i]))
+                {
+                    player1.X = 0; player1.Y = 170;
+
+                    balls.RemoveAt(i);
+                }
+            }
+            for (int i = 0; i < balls.Count(); i++)
+            {
+                if (player2.IntersectsWith(balls[i]))
+                {
+                    player2.X = 500; player1.Y = 170;
+
+                    balls.RemoveAt(i);
+                }
+
+            }
 
             Refresh();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(blueBrush, player1);
-            e.Graphics.FillRectangle(redBrush, player2);
-            e.Graphics.FillRectangle(blueBrush, border);
-            e.Graphics.FillRectangle(blueBrush, border2);
-            e.Graphics.FillRectangle(yellowBrush, boost);
 
-            //CheckIfBothPlayersAreTouchingTheWallToBegin
-            if (player1.IntersectsWith(border) && player2.IntersectsWith(border2))
-                {
-
-                if (aLeft == true && player1.X > 70)
-                {
-                    player1.X -= player1Speed;
-                }
-                if (dRight == true && player1.X < 435)
-                {
-                    player1.X += player1Speed;
-                }
-
-                if (leftArrowDown == true && player2.X > 70)
-                {
-                    player2.X -= player2Speed;
-                }
-                if (rightArrowDown == true && player2.X < 435)
-                {
-                    player2.X += player2Speed;
-                }
+            if (gameState == "waiting")
+            {
+                titleLabel.Text = "Square Chaser";
+                subtitleLabel.Text = "Press space to start or Esc to exit";
+                p1Score.Visible = false;
+                p2Score.Visible = false;
             }
-              
+            else if (gameState == "running")
+            {
+                e.Graphics.FillRectangle(blueBrush, player1);
+                e.Graphics.FillRectangle(redBrush, player2);
+                e.Graphics.FillRectangle(blueBrush, border);
+                e.Graphics.FillRectangle(blueBrush, border2);
+                e.Graphics.FillRectangle(yellowBrush, boost);
                 e.Graphics.FillRectangle(whiteBrush, point);
+                p1Score.Visible = true;
+                p2Score.Visible = true;
+                //draw balls 
+                for (int i = 0; i < balls.Count(); i++)
+                {
+                    e.Graphics.FillEllipse(whiteBrush, balls[i]);
+                }
+                for (int i = 0; i < balls2.Count(); i++)
+                {
+                    e.Graphics.FillEllipse(whiteBrush, balls2[i]);
+                }
+
+            }
+            else if (gameState == "over")
+            {
+                gameTimer.Enabled = false;
+                titleLabel.Text = "Game Over!";
+                subtitleLabel.Text = "Press Esc to Exit or Space to Play Again";  
+            }
+
+
+              
+              
             
         }
+        private void GameInitalize()
+        {
+            gameState = "running";
 
+            titleLabel.Text = "";
+            subtitleLabel.Text = "";
+
+            gameTimer.Enabled = true;
+        }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -244,6 +347,19 @@ namespace squareChaser
                     break;
                 case Keys.Right:
                     rightArrowDown = true;
+                    break;
+                case Keys.Space:
+                    if (gameState == "waiting" || gameState == "over")
+                    {
+                        GameInitalize();
+                    }
+                    break;
+                case Keys.Escape:
+                    if (gameState == "waiting" || gameState == "over")
+                    {
+                        Application.Exit();
+                    }
+
                     break;
             }
         }
